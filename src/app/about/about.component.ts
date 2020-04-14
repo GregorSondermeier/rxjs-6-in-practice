@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {concat, interval, Observable, of} from "rxjs";
+import {concat, interval, merge, Observable, of} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'about',
@@ -11,13 +12,13 @@ export class AboutComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    const source1$: Observable<number> = interval(1000);
-    const source2$: Observable<number> = of(4, 5, 6);
-    const source3$: Observable<number> = of(7, 8, 9);
+    const interval1$: Observable<number> = interval(1000);
+    const interval2$: Observable<number> = interval1$.pipe(
+      map(val => val*10),
+    );
 
-    const result$ = concat(source1$, source2$, source3$);
-
-    result$.subscribe(val => console.log('val:', val));
+    const result$ = merge(interval1$, interval2$);
+    result$.subscribe(console.log);
   }
 
 }
