@@ -10,6 +10,23 @@ export class AboutComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    // stream emits mouse click events, never completes
+    document.addEventListener('click', evt => {
+      console.log(evt);
+    });
+
+    // stream emits new values after 1 second, never completes
+    let counter = 0;
+    setInterval(() => {
+      console.log(counter);
+      counter++;
+    }, 1000);
+
+    // stream emits once after 3 seconds, then completes
+    setTimeout(() => {
+      console.log('finished...');
+    }, 3000);
   }
 
 }
